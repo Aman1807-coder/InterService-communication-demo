@@ -1,5 +1,6 @@
 package com.example.consumer.httpinterface;
 
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -10,8 +11,14 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 public class HttpInterfaceConfig {
 
     @Bean
-    public ProviderHttpInterface webClientHttpInterface() {
-        WebClient webClient = WebClient.builder().baseUrl("http://localhost:8081/").build();
+    @LoadBalanced
+    public WebClient.Builder webClientBuilder() {
+        return WebClient.builder();
+    }
+
+    @Bean
+    public ProviderHttpInterface webClientHttpInterface(WebClient.Builder webClientBuilder) {
+        WebClient webClient = webClientBuilder.baseUrl("http://provider").build();
         WebClientAdapter adapter = WebClientAdapter.create(webClient);
         HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(adapter).build();
 

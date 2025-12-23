@@ -7,7 +7,8 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class RestTemplateClient {
 
-    private static final String PROVIDER_URL = "http://localhost:8081";
+//    private static final String PROVIDER_URL = "http://localhost:8081";
+private static final String PROVIDER_URL = "http://provider";
 
     @Autowired
     RestTemplate restTemplate;
